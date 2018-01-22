@@ -1,0 +1,169 @@
+\begin{frame}[t]{Which algorithms ar included?}
+\begin{itemize}
+  \item Most STL algorithm include now a parallel version.
+  \item A new argument signals the execution policy.
+    \begin{itemize}
+      \item The execution is the first argument.
+    \end{itemize}
+  \item Some algorithms do not have a parallel counterpart.
+    \begin{itemize}
+      \item Example: \cppid{accumulate}.
+    \end{itemize}
+  \item Some new algorithms not coming from the STL.
+    \begin{itemize}
+      \item Example: \cppid{exclusive\_scan}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,allowframebreaks]{Operaciones invariantes sobre secuencias}
+\begin{itemize}
+  \item \textmark{Iteration}: 
+    \cppid{for\_each}, 
+    \cppid{for\_each\_n}.
+
+  \vfill
+  \item \textmark{Counting}: 
+    \cppid{count}, 
+    \cppid{count\_if}.
+
+  \vfill
+  \item \textmark{Finding values}: 
+    \cppid{adjacent\_find}, 
+    \cppid{find}, 
+    \cppid{find\_if},
+    \cppid{find\_if\_not}.
+
+  \vfill
+  \item \textmark{Searching subsequences}:
+    \cppid{search},
+    \cppid{search\_n}.
+
+  \vfill
+  \item \textmark{Sequence comparison}: 
+    \cppid{equal},
+    \cppid{mismatch}.
+
+  \vfill
+  \item \textmark{Predicate checking}: 
+    \cppid{all\_of}, 
+    \cppid{any\_of},
+    \cppid{none\_of}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Finding in a sequence}
+\begin{block}{Examples}
+\begin{lstlisting}[]
+vector<int> v = get_values_vector();
+
+// Count positive values
+count_if(par, begin(v), end(v), 
+  [](int x) { return x>0; });
+
+// Find first value equal to 0
+auto p = find(par, begin(v), end(v), 0);
+
+// Find first value greater than 0 and less than 10
+auto q = find_if(par, begin(v), end(v),
+  [](int x) { return (x>0) && (x<10); }
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[t,allowframebreaks]{Modifying sequence operations}
+\begin{itemize}
+  \item \textmark{Copying}:
+    \cppid{copy},
+    \cppid{copy\_if},
+    \cppid{copy\_n}
+  \item \textmark{Moving}:
+    \cppid{move}.
+  \item \textmark{Populating a sequence}:
+    \cppid{fill},
+    \cppid{fill\_n},
+    \cppid{generate},
+    \cppid{generate\_n}.
+  \item \textmark{Element removal}:
+    \cppid{remove},
+    \cppid{remove\_if},
+    \cppid{remove\_copy},
+    \cppid{remove\_copy\_if}.
+  \item \textmark{Replacement}:
+    \cppid{replace},
+    \cppid{replace\_if},
+    \cppid{replace\_copy},
+    \cppid{replace\_copy\_if},
+    \cppid{unique},
+    \cppid{unique\_copy}.
+  \item \textmark{Element reordering}:
+    \cppid{reverse},
+    \cppid{reverse\_copy},
+    \cppid{rotate},
+    \cppid{rotate\_copy}.
+  \item \textmark{Swaping}: \cppid{swap\_ranges}.
+  \item \textmark{Element transformation}: \cppid{transform}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,allowframebreaks]{Partitioning, sorting and set}
+\begin{itemize}
+  \item \textmark{Partitioning}:
+    \cppid{is\_partitioned},
+    \cppid{partition},
+    \cppid{partition\_copy},
+    \cppid{stable\_partition}.
+  \item \textmark{Sorting}:
+    \cppid{partial\_sort},
+    \cppid{partial\_sort\_copy},
+    \cppid{sort},
+    \cppid{stable\_sort}.
+  \item \textmark{Auxiliary to sorting}:
+    \cppid{is\_sorted},
+    \cppid{is\_sorted\_until},
+    \cppid{nth\_element}.
+  \item \textmark{Heap operations}:
+    \cppid{is\_heap},
+    \cppid{is\_heap\_until}.
+  \item \textmark{Set operations}:
+    \cppid{includes},
+    \cppid{inplace\_merge},
+    \cppid{merge},
+    \cppid{set\_difference},
+    \cppid{set\_intersection},
+    \cppid{set\_symmetric\_difference},
+    \cppid{set\_union}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Other}
+\begin{itemize}
+  \item \textmark{Min and max}:
+    \cppid{lexicographical\_compare},
+    \cppid{max\_element},
+    \cppid{min\_element},
+    \cppid{minmax\_element}.
+  \item \textmark{Memory operations}:
+    \cppid{uninitialized\_copy},
+    \cppid{uninitialized\_copy\_n},
+    \cppid{uninitialized\_fill},
+    \cppid{uninitialized\_fill\_n}.
+\end{itemize}
+\end{frame}
+
+  
+\begin{frame}[t]{Numerics}
+\begin{itemize}
+  \item \textmark{Reduction}:
+    \cppid{reduce},
+    \cppid{transform\_reduce}.
+  \item \textmark{Scans}:
+    \cppid{exclusive\_scan},
+    \cppid{inclusive\_scan},
+    \cppid{transform\_exclusive\_scan},
+    \cppid{transform\_inclusive\_scan}.
+  \item \textmark{Others}:
+    \cppid{adjacent\_difference}.
+\end{itemize}
+\end{frame}
+

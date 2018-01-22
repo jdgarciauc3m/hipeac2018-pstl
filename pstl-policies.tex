@@ -1,0 +1,49 @@
+\begin{frame}[t]{Policies}
+\begin{itemize}
+  \item An \textgood{execution policy}
+        selects the kind of parallelism to run an algorithm.
+    \begin{itemize}
+
+      \vfill\pause
+      \item \textmark{Sequential}: No parallelism.
+        \begin{itemize}
+          \item Type : \cppid{std::execution::sequenced\_policy}
+          \item Global object: \cppid{std::execution::seq}.
+        \end{itemize}
+
+      \vfill\pause
+      \item \textmark{Parallel}: Parallelized.
+        \begin{itemize}
+          \item Type : \cppid{std::execution::parallel\_policy}.
+          \item Global object: \cppid{std::execution::par}.
+        \end{itemize}
+
+      \vfill\pause
+      \item \textmark{Parallel + Vector}: Parallelized and vectorized.
+        \begin{itemize}
+          \item Type: \cppid{std::execution::parallel\_unsequenced\_policy}.
+          \item Global object: \cppid{std::execution::par\_unseq}.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Algorithms versions}
+\begin{itemize}
+  \item All algorithm versions take as first argument an execution policy.
+\end{itemize}
+\begin{block}{Example: sorting a vector}
+\begin{lstlisting}[]
+using namespace std;
+vector<double> v = read_values();
+sort(v.begin(), v.end());
+
+using namespace std::execution;
+
+sort(seq, v.begin(), v.end()); // Sequential
+sort(par, v.begin(), v.end()); // Parallel
+sort(par_unseq, v.begin(), v.end()); // Par + Vector
+\end{lstlisting}
+\end{block}
+\end{frame}
+

@@ -1,0 +1,74 @@
+\begin{frame}[t]{Non-numeric algorithms}
+\begin{itemize}
+  \item Do not require value that value type is a numeric type.
+    \begin{itemize}
+      \item Mor general than numeric types.
+    \end{itemize}
+  \item Examples:
+    \begin{itemize}
+      \item \cppid{for\_each()}.
+      \item \cppid{for\_each\_n()}.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{For Each}
+\begin{lstlisting}[]
+template <class ExecutionPolicy, class InputIterator, 
+          class Function>
+void for_each(ExecutionPolicy && ep, 
+              InputIterator first, InputIterator last, Function f);
+\end{lstlisting}
+\begin{itemize}
+  \item Applies \cppid{f} to every value in range \cppid{[first,last)}.
+\end{itemize}
+\begin{block}{Example}
+\begin{lstlisting}[basicstyle=\scriptsize]
+long count_primes(const vector<int> & v) {
+  std::atomic<long> count;
+  for_each(par, begin(v), end(v), [&](int x) {
+    if (is_prime(x)) { count++; }
+  });
+  return count;
+}
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[t,fragile]{For Each}
+\begin{lstlisting}[]
+template <class ExecutionPolicy, class InputIterator, 
+          class Size, class Function>
+void for_each_n(ExecutionPolicy && ep, 
+                InputIterator first, Size n, Function f);
+\end{lstlisting}
+\begin{itemize}
+  \item Applies \cppid{f} to every value in range \cppid{[first,first+n)}.
+\end{itemize}
+\begin{block}{Example}
+\begin{lstlisting}[basicstyle=\scriptsize]
+long count_primes(const vector<int> & v, int k) {
+  std::atomic<long> count;
+  for_each_(par, begin(v), k, [&](int x) {
+    if (is_prime(x)) { count++; }
+  });
+  return count;
+}
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[t,fragile]{But...}
+\begin{itemize}
+  \item \cppid{for\_each} is not usually the best way to do things.
+\end{itemize}
+\begin{block}{Example}
+\begin{lstlisting}[basicstyle=\scriptsize]
+long count_primes(const vector<int> & v) {
+  return count_if(par, begin(v), end(v), [&](int x) {
+    return is_prime(x);
+  });
+}
+\end{lstlisting}
+\end{block}
+\end{frame}

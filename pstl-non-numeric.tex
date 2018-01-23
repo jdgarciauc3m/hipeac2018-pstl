@@ -2,13 +2,18 @@
 \begin{itemize}
   \item Do not require value that value type is a numeric type.
     \begin{itemize}
-      \item Mor general than numeric types.
+      \item More general than numeric types.
     \end{itemize}
+
+  \vfill
   \item Examples:
     \begin{itemize}
       \item \cppid{for\_each()}.
       \item \cppid{for\_each\_n()}.
     \end{itemize}
+
+  \vfill
+  \item Might be considered equivalent to a \textmark{parallel-for}.
 \end{itemize}
 \end{frame}
 
@@ -49,7 +54,7 @@ void for_each_n(ExecutionPolicy && ep,
 \begin{lstlisting}[basicstyle=\scriptsize]
 long count_primes(const vector<int> & v, int k) {
   std::atomic<long> count;
-  for_each_(par, begin(v), k, [&](int x) {
+  for_each_n(par, begin(v), k, [&](int x) {
     if (is_prime(x)) { count++; }
   });
   return count;

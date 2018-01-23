@@ -41,7 +41,7 @@
 \begin{frame}[t,fragile]{reduce}
 \begin{lstlisting}[]
 template <class ExecutionPolicy, class ForwardIterator, class T, class BinaryOperation>
-T reduce(ExecutionPolicy && policy, Forwardterator first, ForwardIterator last, T init, BinaryOperation op);
+T reduce(ExecutionPolicy && policy, ForwardIterator first, ForwardIterator last, T init, BinaryOperation op);
 \end{lstlisting}
 \begin{itemize}
   \item \cppid{GENERALIZED\_SUM(op, init, *first, \ldots )}
@@ -49,9 +49,9 @@ T reduce(ExecutionPolicy && policy, Forwardterator first, ForwardIterator last, 
   \item \cppid{op} Cannot \textbad{modify} values in the range.
   \item \cppid{reduce} might be \textbad{non-deterministic} when \cppid{op} es non associative or non-commutative.
 \end{itemize}
-\begin{block}{Example}
+\begin{block}{Example: Adding values in a vector}
 \begin{lstlisting}[]
-reduce(par, begin(v), end(v), 0, [](int a, int b) { 
+sum = reduce(par, begin(v), end(v), 0, [](int a, int b) { 
   return a+b; });
 \end{lstlisting}
 \end{block}
@@ -66,11 +66,17 @@ T reduce(ExecutionPolicy && policy, InputIterator first, InputIterator last, T i
   \item Defaults to addition.
   \item \cppid{reduce(first,last,init,plus<>())}.
 \end{itemize}
+\vfill
+\begin{block}{Example: Adding values in a vector}
+\begin{lstlisting}[]
+sum = reduce(par, begin(v), end(v), 0);
+\end{lstlisting}
+\end{block}
 \end{frame}
 
-\begin{frame}[t,fragile]{Defaulting operation an initial value in reduce}
+\begin{frame}[t,fragile]{Defaulting operation and initial value in reduce}
 \begin{lstlisting}[]
-template <class ExecutionPolicy, class InputIterator, class T, class BinaryOperation>
+template <class ExecutionPolicy, class InputIterator>
 T reduce(ExecutionPolicy && policy, InputIterator first, InputIterator last);
 \end{lstlisting}
 \begin{itemize}
@@ -78,6 +84,12 @@ T reduce(ExecutionPolicy && policy, InputIterator first, InputIterator last);
   \item Defaults initial value to value type default value.
   \item \cppid{reduce(first, last, iterator\_traits<ForwardIt>::value\_type\{\}, plus<>())}.
 \end{itemize}
+\vfill
+\begin{block}{Example: Adding values in a vector}
+\begin{lstlisting}[]
+sum = reduce(par, begin(v), end(v));
+\end{lstlisting}
+\end{block}
 \end{frame}
 
 \begin{frame}[t,fragile]{Transform reduce}
@@ -102,6 +114,27 @@ auto sum_square = transform_reduce(begin(v), end(v),
 \end{lstlisting}
 \end{block}
 \end{frame}
+
+\begin{frame}[t,fragile]{Word frequencies}
+\begin{block}{Computing word frequencies}
+\begin{lstlisting}
+auto word_freq(const std::vector<std::string> & words) {
+  using namespace std;
+  using dictionary = map<string,int>;
+
+  return transform_reduce(execution::par, begin(words), end(words),
+    [](string w) -> dictionary { return {w,1}; },
+    dictionary{},
+    [](dictionary & lhs, const dictionary & rhs) -> dictionary {
+      for (auto & entry : rhs) { lhs[entry.first] += entry.second; }
+      return lhs;
+    }
+  );
+}
+\end{lstlisting}
+\end{block}
+\end{frame}
+
 
 \begin{frame}[t]{GENERALIZED\_NONCOMMUTATIVE\_SUM}
 \begin{itemize}
@@ -150,7 +183,7 @@ OutputIterator exclusive_scan(InputItertor first, InputIterator last, OutputIter
 \begin{itemize}
   \item For every \cppid{i} in range \cppid{[out, out + (last-first))}:
     \begin{itemize}
-      \item Assings to \cppid{*i} the value
+      \item Assigns to \cppid{*i} the value
         \cppid{GENERALIZED\_NONCOMMUTATIVE\_SUM(op, init, *first, \ldots, *(first+(i-out)-1))}.
     \end{itemize}
   \item Returns iterator to the end of resulting range.

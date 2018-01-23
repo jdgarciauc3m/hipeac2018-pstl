@@ -1,0 +1,32 @@
+\begin{frame}[t]{Conclusions}
+\begin{itemize}
+  \item Multiple standard execution policies.
+    \begin{itemize}
+      \item To be extended in next releases through \textmark{executors}.
+    \end{itemize}
+
+  \vfill\pause
+  \item Most algorithms in the STL have now parallel versions.
+
+  \vfill\pause
+  \item \textmark{parallel-for} (i.e. \cppid{for\_each}) should be your
+        last resort
+
+  \vfill\pause
+  \item Specific algorithms for numeric-like types.
+
+  \vfill\pause
+  \item Available implementations.
+    \begin{itemize}
+      \item HPX: \textgood{\url{https://github.com/STEllAR-GROUP/hpx}}.
+      \item Intel Parallel Studio 2018.
+    \end{itemize}
+
+  \vfill\pause
+  \item Focused mostly in data parallelism, with no stream parallelism.
+    \begin{itemize}
+      \item Give a try to \textmark{GrPPI}: \textgood{\url{https://github.com/arcosuc3m/grppi}}.
+    \end{itemize}
+  
+\end{itemize}
+\end{frame}
